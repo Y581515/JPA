@@ -24,8 +24,8 @@ CREATE TABLE Person
 INSERT INTO 
     Person(FNr, Fornavn, Etternavn, Persontype, Stilling, Studium)
 VALUES
-    ('12345678901', 'Arne', 'Arnesen', 'A', 'LÃ¦rer', NULL),
-    ('23456789012', 'Stig', 'Stigsen', 'S', NULL, 'DataingeniÃ¸r'),
+    ('12345678901', 'Arne', 'Arnesen', 'A', 'Lærer', NULL),
+    ('23456789012', 'Stig', 'Stigsen', 'S', NULL, 'Dataingeniør'),
     ('34567890123', 'Pers', 'Perssen', 'P', NULL, NULL);
     
 

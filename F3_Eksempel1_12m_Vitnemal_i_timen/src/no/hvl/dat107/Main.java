@@ -28,18 +28,18 @@ public class Main {
 		
 		String emnekodeRegistrering = "DAT666";
 		
-		System.out.println("\n### Legger inn en ny karakter:");
-		
-		Karakter nyKarakter = vitnemalDAO.registrerKarakterForStudent(
-				123456, emnekodeRegistrering, LocalDate.of(2019, 12, 12), "C");
-		
-		System.out.println(nyKarakter);
-		
-		vitnemal = vitnemalDAO.finnVitnemalForStudent(123456);
-		System.out.println("\n### Vitnemål for student 123456:");
-		vitnemal.skrivUt();
-
-		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
+//		System.out.println("\n### Legger inn en ny karakter:");
+//		
+//		Karakter nyKarakter = vitnemalDAO.registrerKarakterForStudent(
+//				123456, emnekodeRegistrering, LocalDate.of(2019, 12, 12), "C");
+//		
+//		System.out.println(nyKarakter);
+//		
+//		vitnemal = vitnemalDAO.finnVitnemalForStudent(123456);
+//		System.out.println("\n### Vitnemål for student 123456:");
+//		vitnemal.skrivUt();
+//
+//		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
 
 		
 		//b.ii) Oppdatere karakter for en gitt student. Karakter finnes fra før!
@@ -54,7 +54,7 @@ public class Main {
 		System.out.println("\n### Vitnemål for student 123456:");
 		vitnemal.skrivUt();
 
-		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
+//		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
 		
 		//c) Søke opp karakteren til en gitt student i et gitt kurs.
 		Karakter dat102Karakter = vitnemalDAO.finnKarakter(123456, "DAT102");	

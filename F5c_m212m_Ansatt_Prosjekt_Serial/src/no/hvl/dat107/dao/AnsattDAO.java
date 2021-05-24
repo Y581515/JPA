@@ -3,7 +3,9 @@ package no.hvl.dat107.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Prosjekt;
@@ -11,99 +13,107 @@ import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class AnsattDAO {
 
-    private EntityManagerFactory emf;
+	private EntityManagerFactory emf;
 
-    public AnsattDAO() {
-        emf = Persistence.createEntityManagerFactory("AnsattProsjektPU");
-    }
-    
-    public Ansatt finnAnsattMedId(int id) {
+	public AnsattDAO() {
+		emf = Persistence.createEntityManagerFactory("AnsattProsjektPU");
+	}
 
-        EntityManager em = emf.createEntityManager();
+	public Ansatt finnAnsattMedId(int id) {
 
-        Ansatt ansatt = null;
-        try {
-            ansatt = em.find(Ansatt.class, id);
-        } finally {
-            em.close();
-        }
-        return ansatt;
-    }
+		EntityManager em = emf.createEntityManager();
 
-    public void registrerProsjektdeltagelse(Ansatt a, Prosjekt p) {
-        
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        
-        try {
-            tx.begin();
-            
-            Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0);
-            
-            em.merge(a).leggTilProsjektdeltagelse(pd);
-            em.merge(p).leggTilProsjektdeltagelse(pd);
-            
-            em.persist(pd);
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        } finally {
-            em.close();
-        }
-        
-    }
+		Ansatt ansatt = null;
+		try {
+			ansatt = em.find(Ansatt.class, id);
+		} finally {
+			em.close();
+		}
+		return ansatt;
+	}
 
-    public void slettProsjektdeltagelse(Ansatt a, Prosjekt p) {
-    	
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
+	public void registrerProsjektdeltagelse(Ansatt a, Prosjekt p) {
 
-            //TODO - Må søke med JPQL. Ellers som i b)
-            
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+
+			Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0);
+
+			em.merge(a).leggTilProsjektdeltagelse(pd);
+			em.merge(p).leggTilProsjektdeltagelse(pd);
+
+			em.persist(pd);
+
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
+
+	}
+
+	public void slettProsjektdeltagelse(Ansatt a, Prosjekt p) {
+		int aId = a.getId();
+		int pId = p.getId();
+		String queryString = "SELECT pd FROM Prosjektdeltagelse pd "
+				+ "WHERE pd.ansatt.id = :aId AND pd.prosjekt.id = :pId";
+
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		Prosjektdeltagelse pd = null;
+		try {
+			TypedQuery<Prosjektdeltagelse> query = em.createQuery(queryString, Prosjektdeltagelse.class);
+			query.setParameter("ansattId", aId);
+			query.setParameter("prosjektId", pId);
+			pd = query.getSingleResult();
+			// TODO - Må søke med JPQL. Ellers som i b)
+
 //            Prosjektdeltagelse pd = em.find(Prosjektdeltagelse.class, ???);
 //            
 //            //...
 //            
-//            em.remove(pd);
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        } finally {
-            em.close();
-        }
-    }
+			em.remove(pd);
 
-//    private Prosjektdeltagelse finnProsjektdeltagelse(int ansattId, int prosjektId) {
-//        
-//        String queryString = "SELECT pd FROM Prosjektdeltagelse pd " 
-//                + "WHERE pd.ansatt.id = :ansattId AND pd.prosjekt.id = :prosjektId";
-//
-//        EntityManager em = emf.createEntityManager();
-//
-//        Prosjektdeltagelse pd = null;
-//        try {
-//            TypedQuery<Prosjektdeltagelse> query 
-//                    = em.createQuery(queryString, Prosjektdeltagelse.class);
-//            query.setParameter("ansattId", ansattId);
-//            query.setParameter("prosjektId", prosjektId);
-//            pd = query.getSingleResult();
-//            
-//        } catch (NoResultException e) {
-//            // e.printStackTrace();
-//        } finally {
-//            em.close();
-//        }
-//        return pd;
-//    }
-    
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
+	}
+
+	private Prosjektdeltagelse finnProsjektdeltagelse(int ansattId, int prosjektId) {
+
+		String queryString = "SELECT pd FROM Prosjektdeltagelse pd "
+				+ "WHERE pd.ansatt.id = :ansattId AND pd.prosjekt.id = :prosjektId";
+
+		EntityManager em = emf.createEntityManager();
+
+		Prosjektdeltagelse pd = null;
+		try {
+			TypedQuery<Prosjektdeltagelse> query = em.createQuery(queryString, Prosjektdeltagelse.class);
+			query.setParameter("ansattId", ansattId);
+			query.setParameter("prosjektId", prosjektId);
+			pd = query.getSingleResult();
+
+		} catch (NoResultException e) {
+			// e.printStackTrace();
+			return null;
+		} finally {
+			em.close();
+		}
+		return pd;
+	}
+
 }

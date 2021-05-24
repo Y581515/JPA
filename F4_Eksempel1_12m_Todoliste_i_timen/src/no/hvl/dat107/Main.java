@@ -1,5 +1,6 @@
 package no.hvl.dat107;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
 
         Todo rydde = new Todo("Rydde");
         Todo vaskeOpp = new Todo("Vaske opp");
-        Todo stovsuge = new Todo("Støvsuge");
+        Todo stovsuge = new Todo("Stovsuge");
         Todo vaskeVinduer = new Todo("Vaske vinduer");
         
         //------------------------------------------------------------------------
@@ -30,39 +31,44 @@ public class Main {
        
         System.out.println("Etter lagreListe():");
         System.out.println(todolisteDAO.finnListe(listeId));
+        
+        
+        
+        List<Todo> td = todolisteDAO.finnTodosIListe(listeId);
+        System.out.println(td);
 
 //		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
         
         //------------------------------------------------------------------------
         
-        System.out.println("\n\nEndrer navn, fjerner [Vaske Opp], legger til [Vaske vinduer], "
-        		+ "endrer støvsuging-tekst til \"Gøy støvsuging\" og oppdaterer ...");
-
-        husarbeid.setNavn("Gøy husarbeid");
-        husarbeid.fjern(vaskeOpp);         
-        husarbeid.leggTil(vaskeVinduer);   
-        stovsuge.setTekst("Gøy støvsuging");
-       
-        todolisteDAO.oppdaterListe(husarbeid);
-        
-        System.out.println("Etter oppdaterListe():");
-        System.out.println(todolisteDAO.finnListe(listeId));
-        
-		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
+//        System.out.println("\n\nEndrer navn, fjerner [Vaske Opp], legger til [Vaske vinduer], "
+//        		+ "endrer støvsuging-tekst til \"Gøy støvsuging\" og oppdaterer ...");
+//
+//        husarbeid.setNavn("Goy husarbeid");
+//        husarbeid.fjern(vaskeOpp);         
+//        husarbeid.leggTil(vaskeVinduer);   
+//        stovsuge.setTekst("Goy staavsuging");
+//       
+//        todolisteDAO.oppdaterListe(husarbeid);
+//        
+//        System.out.println("Etter oppdaterListe():");
+//        System.out.println(todolisteDAO.finnListe(listeId));
+//        
+//		pauseOgSjekkDatabasen("\nSjekk at vi har fått oppdatert databasen riktig.");
         
 //        //------------------------------------------------------------------------
 //        
-////        System.out.println("\n\nSøker opp listen på navn ...");
-////        
-////        System.out.println("Etter finnListePaaNavn(\"Gøy husarbeid\")");
-////        System.out.println(todolisteDAO.finnListePaaNavn("Gøy husarbeid"));
+//        System.out.println("\n\nSøker opp listen på navn ...");
+//        
+//        System.out.println("Etter finnListePaaNavn(\"Gøy husarbeid\")");
+//        System.out.println(todolisteDAO.finnListePaaNavn("Gøy husarbeid"));
 //        
 //        //------------------------------------------------------------------------
 //        
-////        System.out.println("\n\nHvis kun enveis forhold, finne todos med JPQL ...");
-////        
-////        System.out.println("Etter finnTodosIListe(husarbeid.getListeId())");
-////        System.out.println(todolisteDAO.finnTodosIListe(listeId));
+//        System.out.println("\n\nHvis kun enveis forhold, finne todos med JPQL ...");
+//        
+//        System.out.println("Etter finnTodosIListe(husarbeid.getListeId())");
+//        System.out.println(todolisteDAO.finnTodosIListe(listeId));
 ////        
 //        //------------------------------------------------------------------------
 //        

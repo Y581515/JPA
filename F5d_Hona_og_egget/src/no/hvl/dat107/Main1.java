@@ -5,16 +5,16 @@ import java.time.LocalTime;
 public class Main1 {
 
 	public static void main(String[] args) {
-		
-		AnsattAvdelingDAO aadao = new AnsattAvdelingDAO();
-		
-		aadao.finnAnsatt(1).skrivUt();
-		aadao.finnAnsatt(4).skrivUt();
-		aadao.finnAnsatt(7).skrivUt();
 
-		aadao.finnAvdeling(1).skrivUt();
-		aadao.finnAvdeling(2).skrivUt();
-		
+		AnsattAvdelingDAO aadao = new AnsattAvdelingDAO();
+
+//		aadao.finnAnsatt(1).skrivUt();
+//		aadao.finnAnsatt(4).skrivUt();
+//		aadao.finnAnsatt(7).skrivUt();
+//
+//		aadao.finnAvdeling(1).skrivUt();
+//		aadao.finnAvdeling(2).skrivUt();
+
 		System.out.println("\n---\n");
 		
 		Avdeling avdeling1 = aadao.finnAvdeling(1);

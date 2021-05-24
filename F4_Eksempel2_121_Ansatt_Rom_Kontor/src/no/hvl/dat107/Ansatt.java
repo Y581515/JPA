@@ -24,7 +24,8 @@ public class Ansatt {
 
     @Override
     public String toString() {
-        String romString = kontor != null ? ", kontor=" + kontor.getRomNr() : "";
+        String romString = kontor != null ? ", kontor=" + kontor.getRomNr() + ", Kvm="+kontor.getKvm() : ", har ikke rom";
+        
         return "Ansatt [ansNr=" + ansNr + ", fornavn=" + fornavn 
                 + ", etternavn=" + etternavn + romString + "]";
     }
@@ -40,6 +41,16 @@ public class Ansatt {
     public String getEtternavn() {
         return etternavn;
     }
+
+	public Rom getKontor() {
+		return kontor;
+	}
+
+	public void setKontor(Rom kontor) {
+		this.kontor = kontor;
+	}
+    
+    
     
     
     

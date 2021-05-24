@@ -11,111 +11,117 @@ import javax.persistence.TypedQuery;
 
 public class TodolisteDAO {
 
-    private EntityManagerFactory emf;
+	private EntityManagerFactory emf;
 
-    public TodolisteDAO() {
-        emf = Persistence.createEntityManagerFactory("kjell");
-    }
+	public TodolisteDAO() {
+		emf = Persistence.createEntityManagerFactory("kjell");
+	}
 
-    public Todoliste finnListe(int listeNr) {
-        EntityManager em = emf.createEntityManager();
+	public Todoliste finnListe(int listeNr) {
+		EntityManager em = emf.createEntityManager();
 
-        Todoliste liste = null;
-        try {
-        	
-            liste = em.find(Todoliste.class, listeNr);
-            
-        } finally {
-            em.close();
-        }
-        return liste;
-    }
+		Todoliste liste = null;
+		try {
 
-    public void lagreListe(Todoliste liste) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            
-            em.persist(liste);
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            tx.rollback();
-        } finally {
-            em.close();
-        }
-    }
+			liste = em.find(Todoliste.class, listeNr);
 
-    public void slettListe(Todoliste liste) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            
-            //TODO
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            tx.rollback();
-        } finally {
-            em.close();
-        }
-    }
+		} finally {
+			em.close();
+		}
+		return liste;
+	}
 
-    public void oppdaterListe(Todoliste liste) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            
-            em.merge(liste);
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            tx.rollback();
-        } finally {
-            em.close();
-        }
-    }
+	public void lagreListe(Todoliste liste) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
 
-    public Todoliste finnListePaaNavn(String navn) {
+			em.persist(liste);
 
-        String queryString = "???"; //TODO
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
+		}
+	}
 
-        EntityManager em = emf.createEntityManager();
+	public void slettListe(Todoliste liste) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
 
-        Todoliste liste = null;
-        try {
-        	//TODO
-            
-        } catch (NoResultException e) {
-            // catcher denne og returnerer null :)
-        } finally {
-            em.close();
-        }
-        return liste;
-    }
+			em.remove(em.merge(liste));
 
-    public List<Todo> finnTodosIListe(int listeId) {
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
+		}
+	}
 
-        String queryString = "???"; //TODO
+	public void oppdaterListe(Todoliste liste) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
 
-        EntityManager em = emf.createEntityManager();
+			em.merge(liste);
 
-        List<Todo> todos = null;
-        try {
-            TypedQuery<Todo> query = em.createQuery(queryString, Todo.class);
-            query.setParameter("listeId", listeId);
-            todos = query.getResultList();
-            
-        } finally {
-            em.close();
-        }
-        return todos;
-    }
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
+		}
+	}
+
+	public Todoliste finnListePaaNavn(String navn) {
+
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		Todoliste liste = null;
+		try {
+			tx.begin();
+			String queryString = "SELECT t FROM Todoliste t WHERE t.navn = :navn";
+
+			TypedQuery<Todoliste> query = em.createQuery(queryString, Todoliste.class);
+			query.setParameter("navn", navn);
+
+			liste = query.getSingleResult();
+			tx.commit();
+
+		} catch (NoResultException e) {
+			return null;
+		} finally {
+			em.close();
+		}
+		return liste;
+	}
+
+	public List<Todo> finnTodosIListe(int listeId) {
+
+		String queryString = "SELECT t.todos FROM Todoliste as t WHERE t.listeId = :listeId";
+
+		EntityManager em = emf.createEntityManager();
+
+		List<Todo> todos = null;
+		try {
+			TypedQuery<Todo> query = em.createQuery(queryString, Todo.class);
+			query.setParameter("listeId", listeId);
+			todos = query.getResultList();
+
+		}  finally {
+			em.close();
+		}
+		return todos;
+	}
 
 }

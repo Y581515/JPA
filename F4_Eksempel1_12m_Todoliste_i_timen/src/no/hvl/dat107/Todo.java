@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "Todo", schema = "forelesning4")
 public class Todo {
 
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int todoId;

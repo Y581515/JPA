@@ -1,5 +1,7 @@
 package no.hvl.dat107;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -15,6 +17,18 @@ public class Main {
         System.out.println(ansatt1);
         Ansatt ansatt2 = kontorDAO.finnAnsattNr(2);
         System.out.println(ansatt2);
+        
+        
+        System.out.println("\n");
+        System.out.println("Alle romene");
+        List<Rom> alleRommene = kontorDAO.finnAlleRom();
+        alleRommene.forEach(t -> System.out.println("   " + t));
+        
+        
+        System.out.println("\n");
+        System.out.println("Alle ansattene");
+        List<Ansatt> alleAnsattene= kontorDAO.finnAlleAnsatte();
+        alleAnsattene.forEach(t -> System.out.println("   " + t));
         
     }
 }

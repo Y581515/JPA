@@ -9,7 +9,7 @@ CREATE TABLE Ansatt
 (
   Id         SERIAL,
   Fornavn    VARCHAR(30),
-  Etternavn  VARCHAR(30),
+  Etternavn  VARCHAR(30),j
   CONSTRAINT Ansatt_PK PRIMARY KEY (Id)
 );
 
