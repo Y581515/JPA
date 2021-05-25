@@ -15,10 +15,8 @@
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			
 			<!-- Slik: ... 
-			        value="jdbc:postgresql://[dbServerName]:[dbServerPort]/[databaseName]" /> -->
-			<property name="javax.persistence.jdbc.url" 
-					value="jdbc:postgresql://data1.hib.no:5434/h581515" />
-			
+			value="jdbc:postgresql://[dbServerName]:[dbServerPort]/[databaseName]" /> -->
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://data1.hib.no:5434/h581515" />
 			<property name="javax.persistence.jdbc.user" value="h581515" />
 			<property name="javax.persistence.jdbc.password" value="Rr1!Rr1!" />
 
